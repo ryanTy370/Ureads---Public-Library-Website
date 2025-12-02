@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ureads - Digital Book Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f9f7f7 0%, #dbe2ef 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            padding: 40px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            font-family: 'Merriweather', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .user-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .user-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Navigation */
+        nav {
+            background: #5D4037;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            color: #FFD700;
+            background: rgba(255,255,255,0.1);
+        }
+
+        nav a.active {
+            background: #8B4513;
+            color: #FFD700;
+        }
+
+        /* Search Bar */
+        .search-section {
+            background: white;
+            padding: 40px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .search-container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 18px 30px;
+            border: 2px solid #E6D5C3;
+            border-radius: 50px;
+            font-size: 16px;
+            font-family: 'Open Sans', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #8B4513;
+            box-shadow: 0 0 0 3px rgba(139,69,19,0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(rgba(93,64,55,0.9), rgba(139,69,19,0.9)), url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            margin: 40px 0;
+            border-radius: 15px;
+        }
+
+        .hero-content h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #FFD700;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Books Section */
+        .books-section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .section-title {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            color: #5D4037;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 80px;
+            height: 4px;
+            background: #D2691E;
+            border-radius: 2px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #E6D5C3;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #5D4037;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: #8B4513;
+            color: white;
+            border-color: #8B4513;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .book-cover {
+            height: 350px;
+            background: linear-gradient(135deg, #F5E6D3, #E6D5C3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover i {
+            font-size: 100px;
+            color: #8B4513;
+            opacity: 0.8;
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #FFD700;
+            color: #5D4037;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .book-info {
+            padding: 25px;
+        }
+
+        .book-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.4rem;
+            color: #5D4037;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .book-author {
+            color: #8B4513;
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .book-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .book-rating {
+            color: #FFD700;
+            font-size: 0.9rem;
+        }
+
+        .book-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #D2691E;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .read-btn, .sample-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .read-btn {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+        }
+
+        .read-btn:hover {
+            background: linear-gradient(135deg, #5D4037, #8B4513);
+        }
+
+        .sample-btn {
+            background: #F5E6D3;
+            color: #5D4037;
+            border: 2px solid #E6D5C3;
+        }
+
+        .sample-btn:hover {
+            background: #E6D5C3;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, #5D4037, #8B4513);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 15px;
+            margin: 80px 0;
+        }
+
+        .newsletter h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .newsletter-form button {
+            background: #FFD700;
+            color: #5D4037;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: #2c2c2c;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-section ul li a:hover {
+            color: #FFD700;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #FFD700;
+            color: #5D4037;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                font-size: 2.2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <div>
+                        <div>Ureads</div>
+                        <div class="tagline">Where Stories Come to Life</div>
+                    </div>
+                </div>
+                
+                <div class="user-actions">
+                    <button class="user-btn">
+                        <i class="fas fa-user"></i> Sign In
+                    </button>
+                    <button class="user-btn">
+                        <i class="fas fa-heart"></i> Wishlist
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-book"></i> Browse</a></li>
+                <li><a href="#"><i class="fas fa-fire"></i> Bestsellers</a></li>
+                <li><a href="#"><i class="fas fa-gift"></i> New Releases</a></li>
+                <li><a href="#"><i class="fas fa-tags"></i> Deals</a></li>
+                <li><a href="#"><i class="fas fa-user-friends"></i> Authors</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search for books, authors, or genres...">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Discover Your Next Favorite Book</h1>
+                <p>Join millions of readers exploring our digital library. From timeless classics to modern bestsellers, your next great read is just a click away.</p>
+                <button class="search-btn" style="margin-top: 20px;">
+                    <i class="fas fa-crown"></i> Start Free Trial
+                </button>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">500K+</div>
+                        <div class="stat-label">Books Available</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2M+</div>
+                        <div class="stat-label">Happy Readers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Access Anywhere</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Books Section -->
+    <section class="books-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Books</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active">All</button>
+                    <button class="filter-btn">Fiction</button>
+                    <button class="filter-btn">Non-Fiction</button>
+                    <button class="filter-btn">Sci-Fi</button>
+                    <button class="filter-btn">Mystery</button>
+                </div>
+            </div>
+
+            <div class="books-grid">
+                <!-- Book 1 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <i class="fas fa-book"></i>
+                        <span class="book-badge">Bestseller</span>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">The Midnight Library</h3>
+                        <div class="book-author">by Matt Haig</div>
+                        <p class="book-description">Between life and death there is a library. When Nora Seed finds herself in the Midnight Library, she has a chance to make things right.</p>
+                        
+                        <div class="book-meta">
+                            <div class="book-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                4.5/5
+                            </div>
+                            <div class="book-price">$14.99</div>
+                        </div>
+                        
+                        <div class="book-actions">
+                            <button class="read-btn">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                            <button class="sample-btn">
+                                <i class="fas fa-eye"></i> Sample
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 2 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <i class="fas fa-book"></i>
+                        <span class="book-badge">New</span>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Atomic Habits</h3>
+                        <div class="book-author">by James Clear</div>
+                        <p class="book-description">An easy and proven way to build good habits and break bad ones. Tiny changes, remarkable results.</p>
+                        
+                        <div class="book-meta">
+                            <div class="book-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                5.0/5
+                            </div>
+                            <div class="book-price">$16.99</div>
+                        </div>
+                        
+                        <div class="book-actions">
+                            <button class="read-btn">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                            <button class="sample-btn">
+                                <i class="fas fa-eye"></i> Sample
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 3 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Project Hail Mary</h3>
+                        <div class="book-author">by Andy Weir</div>
+                        <p class="book-description">A lone astronaut must save the earth from disaster in this high-stakes thriller from the author of The Martian.</p>
+                        
+                        <div class="book-meta">
+                            <div class="book-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                5.0/5
+                            </div>
+                            <div class="book-price">$18.99</div>
+                        </div>
+                        
+                        <div class="book-actions">
+                            <button class="read-btn">
+                                <i class="fas fa-shopping-cart"></i> Buy Now
+                            </button>
+                            <button class="sample-btn">
+                                <i class="fas fa-eye"></i> Sample
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Never Miss a New Release</h2>
+            <p>Subscribe to our newsletter and get weekly updates on new books, exclusive deals, and author interviews.</p>
+            
+            <div class="newsletter-form">
+                <input type="email" placeholder="Enter your email address">
+                <button>Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Ureads</h3>
+                    <p>Your digital library in the cloud. Read anywhere, anytime on any device.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-goodreads"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Browse Books</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Authors</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Best Sellers</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Deals</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 456 Book Street, London</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> (123) 456-7890</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> support@ureads.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2024 Ureads Book Store. All rights reserved.</p>
+                <p>Made with <i class="fas fa-heart" style="color:#ff6b6b;"></i> for book lovers everywhere</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Filter buttons functionality
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.textContent.toLowerCase();
+                alert(`Filtering by: ${filter}`);
+                // In real implementation, you would filter the books here
+            });
+        });
+
+        // Book action buttons
+        document.querySelectorAll('.read-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const bookTitle = this.closest('.book-card').querySelector('.book-title').textContent;
+                const price = this.closest('.book-card').querySelector('.book-price').textContent;
+                
+                alert(`Added to cart: "${bookTitle}"\nPrice: ${price}`);
+            });
+        });
+
+        document.querySelectorAll('.sample-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const bookTitle = this.closest('.book-card').querySelector('.book-title').textContent;
+                alert(`Reading sample of: "${bookTitle}"\nSample chapter loaded successfully!`);
+            });
+        });
+
+        // Newsletter subscription
+        document.querySelector('.newsletter-form button').addEventListener('click', function() {
+            const email = this.previousElementSibling.value;
+            if (email && email.includes('@')) {
+                alert(`Thank you for subscribing with: ${email}\nYou'll receive our next newsletter soon!`);
+                this.previousElementSibling.value = '';
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        });
+
+        // Search functionality
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const query = document.querySelector('.search-box').value;
+            if (query) {
+                alert(`Searching for: "${query}"\nLoading results...`);
+            } else {
+                alert('Please enter a search term.');
+            }
+        });
+
+        // User buttons
+        document.querySelectorAll('.user-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.textContent.trim();
+                alert(`${action} - Feature coming soon!`);
+            });
+        });
+    </script>
+</body>
+</html>
